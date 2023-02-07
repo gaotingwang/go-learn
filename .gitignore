@@ -26,12 +26,6 @@ build/
 *.iml
 *.ipr
 
-coverage.out
-count.out
-test
-profile.out
-tmp.out
-
 # Binaries for programs and plugins
 *.exe
 *.exe~
