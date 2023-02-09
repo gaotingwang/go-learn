@@ -7,16 +7,16 @@ import (
 	"strconv"
 )
 
-var ageRegx = regexp.MustCompile(`<td><span class="label">年龄：</span>([\d])+岁</td>`)
-var marriageRegx = regexp.MustCompile(`<td><span class="label">婚况：</span>([^<]+)</td>`)
-var heightRegx = regexp.MustCompile(`<td><span class="label">身高：</span>(\d+)CM</td>`)
+var ageRegx = regexp.MustCompile(`<span class="grayL">年龄：</span>(\d+)</td>`)
+var marriageRegx = regexp.MustCompile(`<span class="grayL">婚况：</span>([^<]+)</td>`)
+var heightRegx = regexp.MustCompile(`<span class="grayL">身.*高：</span>(\d+)</td>`)
 var weightRegx = regexp.MustCompile(`<td><span class="label">体重：</span><span field="">(\d+)KG</span></td>`)
-var incomeRegx = regexp.MustCompile(`<td><span class="label">月收入：</span>([^>]+)</td>`)
-var genderRegx = regexp.MustCompile(`<td><span class="label">性别：</span><span field="">([^>]+)</span></td>`)
+var incomeRegx = regexp.MustCompile(`<span class="grayL">月.*薪：</span>([^>]+元)</td>`)
+var genderRegx = regexp.MustCompile(`<span class="grayL">性别：</span>([^<]+)</td>`)
 var xinzuoRegx = regexp.MustCompile(`<td><span class="label">星座：</span><span field="">([^>]+)</span></td>`)
-var educationRegx = regexp.MustCompile(`<td><span class="label">学历：</span>([^>]+)</td>`)
+var educationRegx = regexp.MustCompile(`<span class="grayL">学.*历：</span>([^>]+)</td>`)
 var occupationRegx = regexp.MustCompile(`<td><span class="label">职业： </span>([^>]+)</td>`)
-var hokouRegx = regexp.MustCompile(`<td><span class="label">籍贯：</span>([^>]+)</td>`)
+var hokouRegx = regexp.MustCompile(`<span class="grayL">居住地：</span>([^>]+)</td>`)
 var houseRegx = regexp.MustCompile(`<td><span class="label">住房条件：</span><span field="">([^>]+)</span></td>`)
 var CarRegx = regexp.MustCompile(`<td><span class="label">是否购车：</span><span field="">([^>]+)</span></td>`)
 

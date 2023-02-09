@@ -6,7 +6,7 @@ import (
 	"regexp"
 )
 
-const cityListRegx = `<a href="(http://www.zhenai.com/zhenghun/[0-9a-z]+)"[^>]*>([^<])+</a>`
+const cityListRegx = `<a href="(http://www.zhenai.com/zhenghun/[0-9a-z]+)"[^>]*>([^<]+)</a>`
 
 // ParseCityList 正则匹配
 func ParseCityList(content []byte) engine.ParseResult {
@@ -16,10 +16,13 @@ func ParseCityList(content []byte) engine.ParseResult {
 	result := engine.ParseResult{}
 	for _, m := range matchAll {
 		fmt.Printf("City : %s, URL: %s \n", m[2], m[1])
+		url := string(m[1])
 		result.Items = append(result.Items, "City "+string(m[2]))
 		result.Requests = append(result.Requests, engine.Request{
 			Url:        string(m[1]),
-			ParserFunc: ParseCity,
+			ParserFunc: func(bytes []byte) engine.ParseResult {
+				return ParseCity(bytes, url)
+			},
 		})
 	}
 	fmt.Println("match city count is", len(matchAll))

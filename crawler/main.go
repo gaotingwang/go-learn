@@ -9,7 +9,7 @@ import (
 func main() {
 	// 单任务爬虫
 	//engine.SingleEngine{}.Run(engine.Request{
-	//	Url:        "http://www.zhenai.com/zhenhun",
+	//	Url:        "http://www.zhenai.com/zhenghun",
 	//	ParserFunc: parser.ParseCityList,
 	//})
 
@@ -19,7 +19,7 @@ func main() {
 	//	WorkerCount: 10,
 	//}
 	//e.Run(engine.Request{
-	//	Url:        "http://www.zhenai.com/zhenhun",
+	//	Url:        "http://www.zhenai.com/zhenghun",
 	//	ParserFunc: parser.ParseCityList,
 	//})
 
@@ -29,7 +29,7 @@ func main() {
 		WorkerCount: 10,
 	}
 	e.Run(engine.Request{
-		Url:        "http://www.zhenai.com/zhenhun",
+		Url:        "http://www.zhenai.com/zhenghun",
 		ParserFunc: parser.ParseCityList,
 	})
 }
