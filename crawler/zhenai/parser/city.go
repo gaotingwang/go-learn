@@ -6,20 +6,20 @@ import (
 	"regexp"
 )
 
-const cityListRegx = `<a href="(http://www.zhenai.com/zhenghun/[0-9a-z]+)"[^>]*>([^<])+</a>`
+const cityRegx = `<a href="(http://www.zhenai.com/u/[0-9]+)"[^>]*>([^<])+</a>`
 
-// ParseCityList 正则匹配
-func ParseCityList(content []byte) engine.ParseResult {
-	compile := regexp.MustCompile(cityListRegx)
+// ParseList 正则匹配
+func ParseList(content []byte) engine.ParseResult {
+	compile := regexp.MustCompile(cityRegx)
 	matchAll := compile.FindAllSubmatch(content, -1)
 
 	result := engine.ParseResult{}
 	for _, m := range matchAll {
 		fmt.Printf("City : %s, URL: %s \n", m[2], m[1])
-		result.Items = append(result.Items, "City "+string(m[2]))
+		result.Items = append(result.Items, "User "+string(m[2]))
 		result.Requests = append(result.Requests, engine.Request{
 			Url:        string(m[1]),
-			ParserFunc: ParseCityList,
+			ParserFunc: engine.NilParser,
 		})
 	}
 	fmt.Println("match city count is", len(matchAll))
