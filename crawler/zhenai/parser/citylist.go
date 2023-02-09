@@ -19,7 +19,7 @@ func ParseCityList(content []byte) engine.ParseResult {
 		result.Items = append(result.Items, "City "+string(m[2]))
 		result.Requests = append(result.Requests, engine.Request{
 			Url:        string(m[1]),
-			ParserFunc: ParseCityList,
+			ParserFunc: ParseCity,
 		})
 	}
 	fmt.Println("match city count is", len(matchAll))
