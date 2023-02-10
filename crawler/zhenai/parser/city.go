@@ -24,7 +24,8 @@ func ParseCity(content []byte, _ string) engine.ParseResult {
 			//	// 注意闭包问题，不能直接使用m[2]，否则最终内部函数第二个参数都是一样的
 			//	return ParseProfile(bytes, name, url, userInfo)
 			//},
-			ParserFunc: ProfileParser(name, userInfo),
+			// 这里不用担心闭包问题，函数调用的参数本身就是一个拷贝
+			ParserFunc: ProfileParser(string(m[1]), name, userInfo),
 		})
 	}
 	fmt.Println("match user count is", len(matchAll))
