@@ -20,8 +20,10 @@ var hokouRegx = regexp.MustCompile(`<span class="grayL">居住地：</span>([^>]
 var houseRegx = regexp.MustCompile(`<td><span class="label">住房条件：</span><span field="">([^>]+)</span></td>`)
 var CarRegx = regexp.MustCompile(`<td><span class="label">是否购车：</span><span field="">([^>]+)</span></td>`)
 
+var idRegx = regexp.MustCompile(`http://album.zhenai.com/u/([0-9]+)`)
+
 // ParseProfile 正则匹配
-func ParseProfile(content []byte, name string, info []byte) engine.ParseResult {
+func ParseProfile(content []byte, name string, url string, info []byte) engine.ParseResult {
 
 	profile := model.Profile{}
 
@@ -49,7 +51,14 @@ func ParseProfile(content []byte, name string, info []byte) engine.ParseResult {
 	profile.Car = extractString(info, CarRegx)
 
 	result := engine.ParseResult{
-		Items: []interface{}{profile},
+		Items: []engine.Item{
+			{
+				Url:     url,
+				Type:    "zhenai",
+				Id:      extractString([]byte(url), idRegx),
+				Payload: profile,
+			},
+		},
 	}
 	return result
 }
@@ -60,4 +69,10 @@ func extractString(content []byte, regx *regexp.Regexp) string {
 		return string(match[1])
 	}
 	return ""
+}
+
+func ProfileParser(name string, info []byte) engine.ParserFunc {
+	return func(content []byte, url string) engine.ParseResult {
+		return ParseProfile(content, name, url, info)
+	}
 }

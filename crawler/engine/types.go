@@ -1,30 +1,24 @@
 package engine
 
-import (
-	"crawler/fetcher"
-	"log"
-)
+type ParserFunc func(content []byte, url string) ParseResult
 
 type Request struct {
 	Url        string
-	ParserFunc func([]byte) ParseResult
+	ParserFunc ParserFunc
 }
 
 type ParseResult struct {
 	Requests []Request
-	Items    []interface{}
+	Items    []Item
+}
+
+type Item struct {
+	Url     string
+	Type    string
+	Id      string
+	Payload interface{}
 }
 
 func NilParser([]byte) ParseResult {
 	return ParseResult{}
-}
-
-func worker(r Request) (ParseResult, error) {
-	content, err := fetcher.Fetch(r.Url)
-	if err != nil {
-		log.Printf("Fetch error: url %s : %v", r.Url, err)
-		return ParseResult{}, err
-	}
-
-	return r.ParserFunc(content), nil
 }
