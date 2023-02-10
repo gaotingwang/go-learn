@@ -15,14 +15,11 @@ func ParseCityList(content []byte) engine.ParseResult {
 
 	result := engine.ParseResult{}
 	for _, m := range matchAll {
-		fmt.Printf("City : %s, URL: %s \n", m[2], m[1])
-		url := string(m[1])
+		//fmt.Printf("City : %s, URL: %s \n", m[2], m[1])
 		result.Items = append(result.Items, "City "+string(m[2]))
 		result.Requests = append(result.Requests, engine.Request{
 			Url:        string(m[1]),
-			ParserFunc: func(bytes []byte) engine.ParseResult {
-				return ParseCity(bytes, url)
-			},
+			ParserFunc: ParseCity,
 		})
 	}
 	fmt.Println("match city count is", len(matchAll))

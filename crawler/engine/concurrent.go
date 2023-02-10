@@ -9,21 +9,27 @@ type ConcurrentEngine struct {
 
 type Scheduler interface {
 	Submit(request Request)
-	ConfigureMasterWorkerChan(chan Request)
-	WorkerReady(chan Request)
+	WorkerChan() chan Request
 	Run()
+	ReadyNotify
 }
 
-// 实现2
+type ReadyNotify interface {
+	WorkerReady(chan Request)
+}
+
 func (ce *ConcurrentEngine) Run(seeds ...Request) {
 	out := make(chan ParseResult)
 	ce.Scheduler.Run()
 
 	for i := 0; i < ce.WorkerCount; i++ {
-		createWorker(out, ce.Scheduler)
+		// 由scheduler决定worker输入channel
+		// simple 的输入channel为所有worker共用，queued 的输入channel是为每个worker创建单独的chan Request
+		createWorker(ce.Scheduler.WorkerChan(), out, ce.Scheduler)
 	}
 
 	for _, r := range seeds {
+		// 相当于 in <- r
 		ce.Scheduler.Submit(r)
 	}
 
@@ -33,16 +39,18 @@ func (ce *ConcurrentEngine) Run(seeds ...Request) {
 			log.Printf("Got item: %v\n", item)
 		}
 		for _, request := range result.Requests {
+			// 相当于 in <- r
+			// 在simpleScheduler情况下，out产生的结果等待写入in ，in中数据等待out处理完，产生了阻塞，需要在SimpleScheduler.Submit为每个request开启一个goroutine
 			ce.Scheduler.Submit(request)
 		}
 	}
 }
 
-func createWorker(out chan ParseResult, s Scheduler) {
-	in := make(chan Request)
+// worker 从in获取数据，处理完结果写入out中
+func createWorker(in chan Request, out chan ParseResult, notify ReadyNotify) {
 	go func() {
 		for {
-			s.WorkerReady(in)
+			notify.WorkerReady(in)
 			request := <-in
 			result, err := worker(request)
 			if err != nil {
@@ -52,44 +60,3 @@ func createWorker(out chan ParseResult, s Scheduler) {
 		}
 	}()
 }
-
-// 实现1
-//func (ce *ConcurrentEngine) Run(seeds ...Request) {
-//	in := make(chan Request)
-//	out := make(chan ParseResult)
-//	ce.Scheduler.ConfigureMasterWorkerChan(in)
-//
-//	for i := 0; i < ce.WorkerCount; i++ {
-//		createWorker(in, out)
-//	}
-//
-//	for _, r := range seeds {
-//		// 相当于 in <- r
-//		ce.Scheduler.Submit(r)
-//	}
-//
-//	for {
-//		result := <-out
-//		for _, item := range result.Items {
-//			log.Printf("Got item: %v\n", item)
-//		}
-//		for _, request := range result.Requests {
-//			// 相当于 in <- r
-//			// out产生的结果等待写入in ，in中数据等待out处理完，产生了阻塞，在SimpleScheduler.Submit为每个request开启一个goroutine
-//			ce.Scheduler.Submit(request)
-//		}
-//	}
-//}
-//
-//func createWorker(in chan Request, out chan ParseResult) {
-//	go func() {
-//		for {
-//			request := <-in
-//			result, err := worker(request)
-//			if err != nil {
-//				continue
-//			}
-//			out <- result
-//		}
-//	}()
-//}

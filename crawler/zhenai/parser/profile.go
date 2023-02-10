@@ -21,32 +21,32 @@ var houseRegx = regexp.MustCompile(`<td><span class="label">住房条件：</spa
 var CarRegx = regexp.MustCompile(`<td><span class="label">是否购车：</span><span field="">([^>]+)</span></td>`)
 
 // ParseProfile 正则匹配
-func ParseProfile(content []byte, name string) engine.ParseResult {
+func ParseProfile(content []byte, name string, info []byte) engine.ParseResult {
 
 	profile := model.Profile{}
 
 	profile.Name = name
-	age, err := strconv.Atoi(extractString(content, ageRegx))
+	age, err := strconv.Atoi(extractString(info, ageRegx))
 	if err == nil {
 		profile.Age = age
 	}
-	height, e := strconv.Atoi(extractString(content, heightRegx))
+	height, e := strconv.Atoi(extractString(info, heightRegx))
 	if e == nil {
 		profile.Height = height
 	}
-	weight, e := strconv.Atoi(extractString(content, weightRegx))
+	weight, e := strconv.Atoi(extractString(info, weightRegx))
 	if e == nil {
 		profile.Weight = weight
 	}
-	profile.Gender = extractString(content, genderRegx)
-	profile.Income = extractString(content, incomeRegx)
-	profile.Marriage = extractString(content, marriageRegx)
-	profile.Education = extractString(content, educationRegx)
-	profile.Occupation = extractString(content, occupationRegx)
-	profile.Hokou = extractString(content, hokouRegx)
-	profile.Xinzuo = extractString(content, xinzuoRegx)
-	profile.House = extractString(content, houseRegx)
-	profile.Car = extractString(content, CarRegx)
+	profile.Gender = extractString(info, genderRegx)
+	profile.Income = extractString(info, incomeRegx)
+	profile.Marriage = extractString(info, marriageRegx)
+	profile.Education = extractString(info, educationRegx)
+	profile.Occupation = extractString(info, occupationRegx)
+	profile.Hokou = extractString(info, hokouRegx)
+	profile.Xinzuo = extractString(info, xinzuoRegx)
+	profile.House = extractString(info, houseRegx)
+	profile.Car = extractString(info, CarRegx)
 
 	result := engine.ParseResult{
 		Items: []interface{}{profile},
