@@ -2,8 +2,11 @@ package parser
 
 import (
 	"fmt"
-	"github.com/gaotingwang/go-learn/crawler/engine"
 	"regexp"
+
+	"github.com/gaotingwang/go-learn/crawler_distributed/config"
+
+	"github.com/gaotingwang/go-learn/crawler/engine"
 )
 
 const cityListRegx = `<a href="(http://www.zhenai.com/zhenghun/[0-9a-z]+)"[^>]*>([^<]+)</a>`
@@ -18,8 +21,8 @@ func ParseCityList(content []byte, _ string) engine.ParseResult {
 		//fmt.Printf("City : %s, URL: %s \n", m[2], m[1])
 		//result.Items = append(result.Items, "City "+string(m[2]))
 		result.Requests = append(result.Requests, engine.Request{
-			Url:        string(m[1]),
-			ParserFunc: ParseCity,
+			Url:    string(m[1]),
+			Parser: engine.NewFuncParser(ParseCity, config.ParseCity),
 		})
 	}
 	fmt.Println("match city count is", len(matchAll))

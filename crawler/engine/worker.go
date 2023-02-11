@@ -1,16 +1,17 @@
 package engine
 
 import (
-	"github.com/gaotingwang/go-learn/crawler/fetcher"
 	"log"
+
+	"github.com/gaotingwang/go-learn/crawler/fetcher"
 )
 
-func worker(r Request) (ParseResult, error) {
+func Worker(r Request) (ParseResult, error) {
 	content, err := fetcher.Fetch(r.Url)
 	if err != nil {
 		log.Printf("Fetch error: url %s : %v", r.Url, err)
 		return ParseResult{}, err
 	}
 
-	return r.ParserFunc(content, r.Url), nil
+	return r.Parser.Parser(content, r.Url), nil
 }

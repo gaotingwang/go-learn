@@ -5,6 +5,7 @@ import (
 	"github.com/gaotingwang/go-learn/crawler/persist"
 	"github.com/gaotingwang/go-learn/crawler/scheduler"
 	"github.com/gaotingwang/go-learn/crawler/zhenai/parser"
+	"github.com/gaotingwang/go-learn/crawler_distributed/config"
 )
 
 func main() {
@@ -35,7 +36,7 @@ func main() {
 		ItemChan:    itemSaver,
 	}
 	e.Run(engine.Request{
-		Url:        "http://www.zhenai.com/zhenghun",
-		ParserFunc: parser.ParseCityList,
+		Url:    "http://www.zhenai.com/zhenghun",
+		Parser: engine.NewFuncParser(parser.ParseCityList, config.ParseCityList),
 	})
 }

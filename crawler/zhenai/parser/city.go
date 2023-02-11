@@ -2,8 +2,9 @@ package parser
 
 import (
 	"fmt"
-	"github.com/gaotingwang/go-learn/crawler/engine"
 	"regexp"
+
+	"github.com/gaotingwang/go-learn/crawler/engine"
 )
 
 var profileRegx = regexp.MustCompile(`<a href="(http://album.zhenai.com/u/[0-9]+)"[^>]*>([^<]+)</a>(.*?)</a></div>`)
@@ -25,7 +26,7 @@ func ParseCity(content []byte, _ string) engine.ParseResult {
 			//	return ParseProfile(bytes, name, url, userInfo)
 			//},
 			// 这里不用担心闭包问题，函数调用的参数本身就是一个拷贝
-			ParserFunc: ProfileParser(string(m[1]), name, userInfo),
+			Parser: NewProfileParser(string(m[1]), name, userInfo),
 		})
 	}
 	fmt.Println("match user count is", len(matchAll))

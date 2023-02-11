@@ -1,10 +1,13 @@
 package parser
 
 import (
-	"github.com/gaotingwang/go-learn/crawler/engine"
-	"github.com/gaotingwang/go-learn/crawler/model"
 	"regexp"
 	"strconv"
+
+	"github.com/gaotingwang/go-learn/crawler_distributed/config"
+
+	"github.com/gaotingwang/go-learn/crawler/engine"
+	"github.com/gaotingwang/go-learn/crawler/model"
 )
 
 var ageRegx = regexp.MustCompile(`<span class="grayL">年龄：</span>(\d+)</td>`)
@@ -23,7 +26,7 @@ var CarRegx = regexp.MustCompile(`<td><span class="label">是否购车：</span>
 var idRegx = regexp.MustCompile(`http://album.zhenai.com/u/([0-9]+)`)
 
 // ParseProfile 正则匹配
-func ParseProfile(content []byte, name string, url string, info []byte) engine.ParseResult {
+func parseProfile(content []byte, name string, url string, info []byte) engine.ParseResult {
 
 	profile := model.Profile{}
 
@@ -71,8 +74,20 @@ func extractString(content []byte, regx *regexp.Regexp) string {
 	return ""
 }
 
-func ProfileParser(userUrl string, name string, info []byte) engine.ParserFunc {
-	return func(content []byte, url string) engine.ParseResult {
-		return ParseProfile(content, name, userUrl, info)
-	}
+type ProfileParser struct {
+	UserUrl string
+	Name    string
+	Info    []byte
+}
+
+func (p ProfileParser) Parser(content []byte, _ string) engine.ParseResult {
+	return parseProfile(content, p.Name, p.UserUrl, p.Info)
+}
+
+func (p ProfileParser) Serialize() (name string, args interface{}) {
+	return config.ParseProfile, p
+}
+
+func NewProfileParser(userUrl string, name string, info []byte) *ProfileParser {
+	return &ProfileParser{UserUrl: userUrl, Name: name, Info: info}
 }
