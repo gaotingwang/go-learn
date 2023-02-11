@@ -22,13 +22,13 @@ It's crawler website using Go language.
 
 ## Algorithm
 
-![Algorithm](.\images\Algorithm.png)
+![Algorithm](./images/Algorithm.png)
 
 ## Framework
 
 ![Frame1](.\images\Frame1.png)
 
-![Frame2](.\images\Frame2.png)
+![Frame2](./images/Frame2.png)
 
 ## Architecture
 
