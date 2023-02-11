@@ -3,9 +3,9 @@ package controller
 import (
 	"context"
 	"crawler/engine"
+	"crawler/frontend/model"
 	"crawler/frontend/view"
-	"crawler/frontend/view/model"
-	"gopkg.in/olivere/elastic.v5"
+	"gopkg.in/olivere/elastic.v6"
 	"net/http"
 	"reflect"
 	"regexp"
@@ -43,7 +43,8 @@ func (h SearchResultHandler) ServeHTTP(w http.ResponseWriter, req *http.Request)
 	//fmt.Fprintf(w,"q=%s, from=%d",q,from)  //响应结果，写入w
 	page, err := h.getSearchResult(q, from)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		panic(err)
+		//http.Error(w, err.Error(), http.StatusBadRequest)
 	}
 	err = h.view.Render(w, page)
 	if err != nil {
