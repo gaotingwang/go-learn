@@ -1,8 +1,8 @@
 package persist
 
 import (
-	"crawler/engine"
 	"errors"
+	"github.com/gaotingwang/go-learn/crawler/engine"
 	"golang.org/x/net/context"
 	"gopkg.in/olivere/elastic.v6"
 	"log"
@@ -22,7 +22,7 @@ func ItemSaver(itemIndex string) (chan engine.Item, error) {
 			log.Printf("Got item: count=%d, content = %v\n", itemCount, item)
 			itemCount++
 
-			err := saveItem(client, itemIndex, item)
+			err := SaveItem(client, itemIndex, item)
 			if err != nil {
 				log.Printf("Item save error : %+v : %v \n", item, err)
 			}
@@ -31,7 +31,7 @@ func ItemSaver(itemIndex string) (chan engine.Item, error) {
 	return out, nil
 }
 
-func saveItem(client *elastic.Client, itemIndex string, item engine.Item) error {
+func SaveItem(client *elastic.Client, itemIndex string, item engine.Item) error {
 	if item.Type == "" {
 		return errors.New("must supply item type")
 	}

@@ -2,9 +2,9 @@ package controller
 
 import (
 	"context"
-	"crawler/engine"
-	"crawler/frontend/model"
-	"crawler/frontend/view"
+	"github.com/gaotingwang/go-learn/crawler/engine"
+	"github.com/gaotingwang/go-learn/crawler/frontend/model"
+	"github.com/gaotingwang/go-learn/crawler/frontend/view"
 	"gopkg.in/olivere/elastic.v6"
 	"net/http"
 	"reflect"
@@ -31,7 +31,8 @@ func CreateSearchResultHandler(template string) SearchResultHandler {
 	}
 }
 
-//实现一个interface ,from用于分页
+// 实现一个interface ,from用于分页
+//
 //localhost:9200/search?q=男 已购房&from=20
 func (h SearchResultHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	//去掉空格
@@ -78,7 +79,7 @@ func (h SearchResultHandler) getSearchResult(q string, from int) (model.SearchRe
 	return result, nil
 }
 
-//前端搜索没有输入Payload.Age<30，而是输入的Age<30,因此为了保证能在elastic中正常使用，重新添加上Payload.
+// 前端搜索没有输入Payload.Age<30，而是输入的Age<30,因此为了保证能在elastic中正常使用，重新添加上Payload.
 func rewriteQueryString(q string) string {
 	re := regexp.MustCompile(`([A-Z][a-z]*):`) //([A-Z][a-z]*)表示Height: Age:
 	//$1 代表（）中的部分

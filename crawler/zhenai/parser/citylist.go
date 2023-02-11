@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"crawler/engine"
 	"fmt"
+	"github.com/gaotingwang/go-learn/crawler/engine"
 	"regexp"
 )
 

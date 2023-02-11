@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"crawler/engine"
-	"crawler/model"
+	"github.com/gaotingwang/go-learn/crawler/engine"
+	"github.com/gaotingwang/go-learn/crawler/model"
 	"regexp"
 	"strconv"
 )

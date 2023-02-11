@@ -1,7 +1,7 @@
 package scheduler
 
 import (
-	"crawler/engine"
+	"github.com/gaotingwang/go-learn/crawler/engine"
 )
 
 type SimpleScheduler struct {

@@ -1,7 +1,7 @@
 package engine
 
 import (
-	"crawler/fetcher"
+	"github.com/gaotingwang/go-learn/crawler/fetcher"
 	"log"
 )
 

@@ -1,4 +1,4 @@
-module crawler
+module github.com/gaotingwang/go-learn/crawler
 
 go 1.19
 

@@ -1,9 +1,9 @@
 package view
 
 import (
-	"crawler/engine"
-	"crawler/frontend/model"
-	common "crawler/model"
+	"github.com/gaotingwang/go-learn/crawler/engine"
+	"github.com/gaotingwang/go-learn/crawler/frontend/model"
+	common "github.com/gaotingwang/go-learn/crawler/model"
 	"os"
 	"testing"
 )
@@ -14,7 +14,6 @@ func TestSearchResultView_Render(t *testing.T) {
 
 	view := CreateSearchResultView("template.test.html")
 	out, err := os.Create("template.test.html")
-
 
 	page := model.SearchResult{}
 	page.Hits = 123
@@ -31,7 +30,7 @@ func TestSearchResultView_Render(t *testing.T) {
 			Name:       "安静的雪",
 			Xinzuo:     "牧羊座",
 			Occupation: "人事/行政",
-			Marriage:    "离异",
+			Marriage:   "离异",
 			House:      "已够房",
 			Hokou:      "山东菏泽",
 			Education:  "大学本科",
@@ -39,11 +38,11 @@ func TestSearchResultView_Render(t *testing.T) {
 		},
 	}
 	for i := 0; i < 10; i++ {
-		page.Items = append(page.Items,item)
+		page.Items = append(page.Items, item)
 	}
 
 	//err = template.Execute(out, page)
-	err = view.Render(out,page)
+	err = view.Render(out, page)
 	if err != nil {
 		panic(err)
 	}
