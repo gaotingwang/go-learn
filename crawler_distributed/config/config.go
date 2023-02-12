@@ -9,10 +9,12 @@ const (
 
 	// Service ports
 	ItemSaverPort = 1234
+	WorkerPort0   = 9000
 
 	// ElasticSearchIndex
 	ElasticIndex = "dating_profile"
 
 	// RPC Endpoints
-	ItemSaverRpc = "ItemSaverService.Save"
+	ItemSaverRpc    = "ItemSaverService.Save"
+	CrawlServiceRpc = "CrawlService.Process"
 )

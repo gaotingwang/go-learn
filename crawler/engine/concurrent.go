@@ -1,10 +1,13 @@
 package engine
 
 type ConcurrentEngine struct {
-	Scheduler   Scheduler
-	WorkerCount int
-	ItemChan    chan Item
+	Scheduler        Scheduler
+	WorkerCount      int
+	ItemChan         chan Item
+	RequestProcessor Processor
 }
+
+type Processor func(Request) (ParseResult, error)
 
 type Scheduler interface {
 	Submit(request Request)
@@ -24,7 +27,7 @@ func (ce *ConcurrentEngine) Run(seeds ...Request) {
 	for i := 0; i < ce.WorkerCount; i++ {
 		// 由scheduler决定worker输入channel
 		// simple 的输入channel为所有worker共用，queued 的输入channel是为每个worker创建单独的chan Request
-		createWorker(ce.Scheduler.WorkerChan(), out, ce.Scheduler)
+		ce.createWorker(ce.Scheduler.WorkerChan(), out, ce.Scheduler)
 	}
 
 	for _, r := range seeds {
@@ -48,12 +51,12 @@ func (ce *ConcurrentEngine) Run(seeds ...Request) {
 }
 
 // worker 从in获取数据，处理完结果写入out中
-func createWorker(in chan Request, out chan ParseResult, notify ReadyNotify) {
+func (ce *ConcurrentEngine) createWorker(in chan Request, out chan ParseResult, notify ReadyNotify) {
 	go func() {
 		for {
 			notify.WorkerReady(in)
 			request := <-in
-			result, err := Worker(request)
+			result, err := ce.RequestProcessor(request)
 			if err != nil {
 				continue
 			}

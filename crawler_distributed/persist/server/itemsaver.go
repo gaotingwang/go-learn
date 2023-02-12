@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"log"
+
 	"github.com/gaotingwang/go-learn/crawler_distributed/config"
 	"github.com/gaotingwang/go-learn/crawler_distributed/persist"
 	"github.com/gaotingwang/go-learn/crawler_distributed/rpcsupport"
 	"gopkg.in/olivere/elastic.v6"
-	"log"
 )
 
 // 提供了一个对外的ItemSave的rpc接口

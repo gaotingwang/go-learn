@@ -31,9 +31,10 @@ func main() {
 		panic(err)
 	}
 	e := engine.ConcurrentEngine{
-		Scheduler:   &scheduler.QueuedScheduler{},
-		WorkerCount: 10,
-		ItemChan:    itemSaver,
+		Scheduler:        &scheduler.QueuedScheduler{},
+		WorkerCount:      10,
+		ItemChan:         itemSaver,
+		RequestProcessor: engine.Worker,
 	}
 	e.Run(engine.Request{
 		Url:    "http://www.zhenai.com/zhenghun",
