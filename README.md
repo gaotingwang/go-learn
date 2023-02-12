@@ -20,6 +20,10 @@ It's crawler website using Go language.
 - gopm get -g -v golang.org/x/net/html
 - go get gopkg.in/olivere/elastic.v6
 
+## Architecture
+
+![Architecture](.\images\Architecture.png)
+
 ## Algorithm
 
 ![Algorithm](./images/Algorithm.png)
@@ -30,11 +34,7 @@ It's crawler website using Go language.
 
 ![Frame2](./images/Frame2.png)
 
-## Architecture
-
-![Architecture](.\images\Architecture.png)
-
-
+<img src="./images/Distributed.png" alt="Distributed" style="zoom:30%;" />
 
 ## Usage for Concurrent
 
