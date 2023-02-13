@@ -5,9 +5,7 @@ import (
 	"github.com/gaotingwang/go-learn/jsonrpc/server"
 )
 
-const host = ":1234"
-
-func CreateProcessor() (server.User, error) {
+func CreateProcessor(host string) (server.User, error) {
 	client, err := rpcsupport.NewClient(host)
 	if err != nil {
 		return server.User{}, err

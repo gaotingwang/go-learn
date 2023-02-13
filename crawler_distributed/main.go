@@ -2,11 +2,11 @@ package main
 
 import (
 	"flag"
-	"fmt"
-	"github.com/gaotingwang/go-learn/crawler_distributed/rpcsupport"
 	"log"
 	"net/rpc"
 	"strings"
+
+	"github.com/gaotingwang/go-learn/crawler_distributed/rpcsupport"
 
 	"github.com/gaotingwang/go-learn/crawler/engine"
 	"github.com/gaotingwang/go-learn/crawler/scheduler"
@@ -50,7 +50,7 @@ func main() {
 func createClientPool(hosts []string) chan *rpc.Client {
 	var clients []*rpc.Client
 	for _, host := range hosts {
-		client, err := rpcsupport.NewClient(fmt.Sprintf(":%d", host))
+		client, err := rpcsupport.NewClient(host)
 		if err != nil {
 			log.Printf("Error connecting to %s: %v", host, err)
 		} else {

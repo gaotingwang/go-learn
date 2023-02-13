@@ -1,8 +1,9 @@
 package server
 
 import (
-	"github.com/gaotingwang/go-learn/jsonrpc/rpcsupport"
 	"log"
+
+	"github.com/gaotingwang/go-learn/jsonrpc/rpcsupport"
 )
 
 type Service struct {
@@ -14,7 +15,7 @@ type Service struct {
 //     1.2 第二个参数为服务端返回给客户端的数据
 //  2. 返回值需以指针方式传
 func (Service) Process(name string, result *User) error {
-	some := NewSome("favorite", "play")
+	some := NewSome("favorite", "play", 18, []byte("This is man"))
 	user := NewUser(name, 18, []byte("hello world"), some)
 
 	*result = user
