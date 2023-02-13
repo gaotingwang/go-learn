@@ -1,7 +1,12 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"github.com/gaotingwang/go-learn/crawler_distributed/rpcsupport"
+	"log"
+	"net/rpc"
+	"strings"
 
 	"github.com/gaotingwang/go-learn/crawler/engine"
 	"github.com/gaotingwang/go-learn/crawler/scheduler"
@@ -11,16 +16,22 @@ import (
 	worker "github.com/gaotingwang/go-learn/crawler_distributed/worker/client"
 )
 
+var (
+	itemSaverHost = flag.String("itemsaver_host", "",
+		"itemsaver host")
+	workerHosts = flag.String("worker_hosts", "",
+		"worker hosts(comma separated)")
+)
+
 func main() {
-	itemChan, err := itemsaver.ItemSaver(fmt.Sprintf(":%d", config.ItemSaverPort))
+	flag.Parse()
+	itemChan, err := itemsaver.ItemSaver(*itemSaverHost)
 	if err != nil {
 		panic(err)
 	}
 
-	processor, err := worker.CreateProcessor()
-	if err != nil {
-		panic(err)
-	}
+	pool := createClientPool(strings.Split(*workerHosts, ","))
+	processor := worker.CreateProcessor(pool)
 
 	e := engine.ConcurrentEngine{
 		Scheduler:        &scheduler.QueuedScheduler{},
@@ -34,4 +45,28 @@ func main() {
 		Parser: engine.NewFuncParser(parser.ParseCityList, config.ParseCityList),
 	})
 
+}
+
+func createClientPool(hosts []string) chan *rpc.Client {
+	var clients []*rpc.Client
+	for _, host := range hosts {
+		client, err := rpcsupport.NewClient(fmt.Sprintf(":%d", host))
+		if err != nil {
+			log.Printf("Error connecting to %s: %v", host, err)
+		} else {
+			clients = append(clients, client)
+		}
+	}
+
+	pool := make(chan *rpc.Client)
+
+	go func() {
+		for {
+			for _, client := range clients {
+				pool <- client
+			}
+		}
+	}()
+
+	return pool
 }
