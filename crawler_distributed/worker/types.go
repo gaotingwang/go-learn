@@ -87,9 +87,9 @@ func deserializedParser(p SerializedParser) (engine.Parser, error) {
 	case config.NilParser:
 		return engine.NilParser{}, nil
 	case config.ParseProfile:
-		if profileParser, ok := p.Args.(parser.ProfileParser); ok {
+		if profileParser, ok := p.Args.(map[string]interface{}); ok {
 			// log.Print(userName)
-			return parser.NewProfileParser(profileParser.UserUrl, profileParser.Name, profileParser.Info), nil
+			return parser.NewProfileParser(profileParser["UserUrl"].(string), profileParser["Name"].(string), profileParser["Info"].([]byte)), nil
 		} else {
 			// log.Print("ParseProfile falls")
 			return nil, fmt.Errorf("invalid arg:%v", p.Args)
