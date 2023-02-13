@@ -1,6 +1,15 @@
+# Go Learn
+
+熟悉Go相关语法使用：
+
+- `jsonrpc` 目录下为 jsonrpc 的使用熟悉
+- `crawler` 目录下是一个爬虫项目， `crawler-distributed` 是其分布式版本
+
+## Crawler
+
 It's crawler website using Go language.
 
-## Features
+### Features
 
 - Go language
 - Docker
@@ -9,7 +18,7 @@ It's crawler website using Go language.
 - Microservices
 - Singleton -> Concurrent -> Distribute
 
-## Installation and go packages
+### Installation and go packages
 
 - go language
 - docker
@@ -20,23 +29,23 @@ It's crawler website using Go language.
 - gopm get -g -v golang.org/x/net/html
 - go get gopkg.in/olivere/elastic.v6
 
-## Architecture
+### Architecture
 
 ![Architecture](.\images\Architecture.png)
 
-## Algorithm
+### Algorithm
 
 ![Algorithm](./images/Algorithm.png)
 
-## Framework
+### Framework
 
 ![Frame1](.\images\Frame1.png)
 
 ![Frame2](./images/Frame2.png)
 
-<img src="./images/Distributed.png" alt="Distributed" style="zoom:30%;" />
+<img src="./images/Distributed.png" alt="Distributed" style="zoom:35%;" />
 
-## Usage for Concurrent
+### Usage for Concurrent
 
 - Start Docker.
 - Run Script "docker run -d -p 9200:9200 elasticsearch:6.8.23"
@@ -45,7 +54,7 @@ It's crawler website using Go language.
 - Visit "http://localhost:8888/" in your browser
 - Type in query string with REST format. such as "女 && Age>20"
 
-## Usage for Distribute
+### Usage for Distribute
 
 - Start Docker.
 - Run Script "docker run -d -p 9200:9200 elasticsearch"
