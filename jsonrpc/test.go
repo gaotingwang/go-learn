@@ -41,19 +41,28 @@ func main() {
 	}
 
 	//bolB, _ := json.Marshal([]byte("This is man"))
-	//var a []byte
-	//json.Unmarshal(bolB, &a)
+	//a := *decodeByteArray(bolB)
+	////json.Unmarshal(bolB, &a)
 	//fmt.Println(a)
 }
 
 func decodeByteArray(v interface{}) *[]byte {
 	var desc []byte
-	err := json.Unmarshal([]byte("\""+v.(string)+"\""), &desc)
-	if err != nil {
-		log.Printf("error decoding : %v", err)
-		if e, ok := err.(*json.SyntaxError); ok {
-			log.Printf("syntax error at byte offset %d", e.Offset)
+
+	switch v.(type) {
+	case []uint8:
+		json.Unmarshal(v.([]uint8), &desc)
+	case string:
+		err := json.Unmarshal([]byte("\""+v.(string)+"\""), &desc)
+		if err != nil {
+			log.Printf("error decoding : %v", err)
+			if e, ok := err.(*json.SyntaxError); ok {
+				log.Printf("syntax error at byte offset %d", e.Offset)
+			}
 		}
+	default:
+		log.Printf("unknow v.type")
 	}
+
 	return &desc
 }
