@@ -1,6 +1,7 @@
 package worker
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
@@ -89,7 +90,7 @@ func deserializedParser(p SerializedParser) (engine.Parser, error) {
 	case config.ParseProfile:
 		if profileParser, ok := p.Args.(map[string]interface{}); ok {
 			// log.Print(userName)
-			return parser.NewProfileParser(profileParser["UserUrl"].(string), profileParser["Name"].(string), profileParser["Info"].([]byte)), nil
+			return parser.NewProfileParser(profileParser["UserUrl"].(string), profileParser["Name"].(string), *decodeByteArray(profileParser["Info"])), nil
 		} else {
 			// log.Print("ParseProfile falls")
 			return nil, fmt.Errorf("invalid arg:%v", p.Args)
@@ -98,4 +99,16 @@ func deserializedParser(p SerializedParser) (engine.Parser, error) {
 		// log.Print(p.Name) // 很关键的Debug
 		return nil, errors.New("unknown parser name")
 	}
+}
+
+func decodeByteArray(v interface{}) *[]byte {
+	var desc []byte
+	err := json.Unmarshal([]byte("\""+v.(string)+"\""), &desc)
+	if err != nil {
+		log.Printf("error decoding : %v", err)
+		if e, ok := err.(*json.SyntaxError); ok {
+			log.Printf("syntax error at byte offset %d", e.Offset)
+		}
+	}
+	return &desc
 }
