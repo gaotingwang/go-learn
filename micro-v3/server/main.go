@@ -1,15 +1,15 @@
 package main
 
 import (
-	"fmt"
 	"github.com/afex/hystrix-go/hystrix"
 	"github.com/asim/go-micro/plugins/registry/consul/v3"
+	"github.com/asim/go-micro/plugins/wrapper/monitoring/prometheus/v3"
 	ratelimit "github.com/asim/go-micro/plugins/wrapper/ratelimiter/uber/v3"
+	"github.com/asim/go-micro/plugins/wrapper/select/roundrobin/v3"
 	opentracing2 "github.com/asim/go-micro/plugins/wrapper/trace/opentracing/v3"
 	"github.com/asim/go-micro/v3"
-	log "github.com/asim/go-micro/v3/logger"
 	"github.com/asim/go-micro/v3/registry"
-	"github.com/gaotingwang/go-learn/micro-common/common"
+	"github.com/gaotingwang/go-learn/micro-v3/common"
 	hystrix2 "github.com/gaotingwang/go-learn/micro-v3/plugin/hystrix"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -29,7 +29,7 @@ func main() {
 	// 2. 配置中心
 	conf, err := common.GetConsulConfig("localhost", 8500, "/micro/config")
 	if err != nil {
-		fmt.Println(err)
+		common.Error(err)
 	}
 
 	// 3. 加载配置
@@ -37,16 +37,16 @@ func main() {
 	// 初始化数据库
 	db, err := gorm.Open("mysql", mysqlConfig.User+":"+mysqlConfig.Pwd+"@/"+mysqlConfig.Database+"?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
-		fmt.Println(err)
+		common.Error(err)
 	}
-	fmt.Println("连接mysql 成功")
+	common.Debug("连接mysql 成功")
 	defer db.Close()
 	db.SingularTable(true)
 
 	// 4. 添加链路追踪
 	t, io, err := common.NewTracer("base", "localhost:6831")
 	if err != nil {
-		fmt.Println(err)
+		common.Error(err)
 	}
 	defer io.Close()
 	opentracing.SetGlobalTracer(t)
@@ -57,24 +57,25 @@ func main() {
 	//启动监听程序
 	go func() {
 		// http://宿主机ip:9092/turbine/turbine.stream
-		err = http.ListenAndServe(net.JoinHostPort("0.0.0.0", "9092"), hystrixStreamHandler)
-		fmt.Println("333")
+		err = http.ListenAndServe(net.JoinHostPort("10.64.86.100", "9092"), hystrixStreamHandler)
 		if err != nil {
-			fmt.Println(err)
+			common.Error(err)
 		}
 	}()
 
-	// 6. 添加日志中心
+	// 6. 暴露端口给prometheus采集信息
+	common.PrometheusBoot(9093)
 
-	// 7. 添加监控
+	// 7. 添加日志中心
 
 	// 创建服务
 	service := micro.NewService(
 		micro.Name("base"),
 		micro.Version("latest"),
+		// 设置服务地址和需要暴露的端口
+		micro.Address("127.0.0.1:8081"),
 		// 添加注册中心
 		micro.Registry(consulRegistry),
-		micro.Config(conf),
 		// 添加链路追踪
 		micro.WrapHandler(opentracing2.NewHandlerWrapper(opentracing.GlobalTracer())),
 		micro.WrapClient(opentracing2.NewClientWrapper(opentracing.GlobalTracer())),
@@ -82,6 +83,10 @@ func main() {
 		micro.WrapClient(hystrix2.NewClientHystrixWrapper()),
 		// 服务端添加限流
 		micro.WrapHandler(ratelimit.NewHandlerWrapper(1000)),
+		// 添加负载均衡
+		micro.WrapClient(roundrobin.NewClientWrapper()),
+		// 添加监控
+		micro.WrapHandler(prometheus.NewHandlerWrapper()),
 	)
 
 	// 初始化服务
@@ -90,6 +95,6 @@ func main() {
 	// 启动服务
 	if err := service.Run(); err != nil {
 		//输出启动失败信息
-		log.Fatal(err)
+		common.Error(err)
 	}
 }

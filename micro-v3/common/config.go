@@ -18,6 +18,6 @@ func GetConsulConfig(host string, port int64, prefix string) (config.Config, err
 	if err != nil {
 		return conf, err
 	}
-	err = config.Load(consulSource)
+	err = conf.Load(consulSource)
 	return conf, err
 }

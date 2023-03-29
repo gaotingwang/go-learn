@@ -37,7 +37,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./mysql:/var/lib/mysql
+      - ../data/mysql:/var/lib/mysql
   # 链路jaeger http://localhost:16686/
   jaeger:
     image: jaegertracing/all-in-one
@@ -46,6 +46,22 @@ services:
       - "16686:16686"
   # 添加熔断看板 http://127.0.0.1:9002/hystrix
   hystrix-dashboard:
-    image: cap1573/hystrix-dashboard
+    image: mlabouardy/hystrix-dashboard
     ports:
       - "9002:9002"
+  # 添加prometheus http://localhost:9090/
+  prometheus:
+    #说明采用的镜像地址
+    image: bitnami/prometheus
+    #把外部yml文件挂载到容器中
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+  # 监控看板 http://localhost:3000/ 默认密码为admin/admin
+  grafana:
+    #说明采用的镜像地址
+    image: grafana/grafana:8.5.22
+    #镜像对外映射的端口
+    ports:
+      - "3000:3000"
