@@ -42,3 +42,6 @@ build/
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+/micro-v3/docker/data/
+*.log

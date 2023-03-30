@@ -66,7 +66,10 @@ func main() {
 	// 6. 暴露端口给prometheus采集信息
 	common.PrometheusBoot(9093)
 
-	// 7. 添加日志中心
+	// 7. 添加日志中心（日志会写入micro.log文件中，启动filebeat上传文件到logstash中）
+	common.Debug("Debug 日志")
+	common.Info("Info 日志")
+	common.Error("Error 日志")
 
 	// 创建服务
 	service := micro.NewService(
