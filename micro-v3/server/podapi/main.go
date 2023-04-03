@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"github.com/afex/hystrix-go/hystrix"
 	"github.com/asim/go-micro/plugins/registry/consul/v3"
 	ratelimit "github.com/asim/go-micro/plugins/wrapper/ratelimiter/uber/v3"
 	"github.com/asim/go-micro/plugins/wrapper/select/roundrobin/v3"
@@ -16,8 +15,6 @@ import (
 	"github.com/gaotingwang/go-learn/micro-v3/server/podapi/handler"
 	"github.com/gaotingwang/go-learn/micro-v3/server/podapi/proto/podApi"
 	"github.com/opentracing/opentracing-go"
-	"net"
-	"net/http"
 	"strconv"
 )
 
@@ -57,8 +54,8 @@ func main() {
 	opentracing.SetGlobalTracer(t)
 
 	//3.添加熔断器
-	hystrixStreamHandler := hystrix.NewStreamHandler()
-	hystrixStreamHandler.Start()
+	//hystrixStreamHandler := hystrix.NewStreamHandler()
+	//hystrixStreamHandler.Start()
 
 	//4.添加日志
 	//1）需要程序日志打入到日志文件中
@@ -67,14 +64,14 @@ func main() {
 	fmt.Println("日志统一记录在根目录 micro.log 文件中，请点击查看日志！")
 
 	//6.启动熔断监听程序
-	go func() {
-		//http://10.64.86.100:9092/turbine/turbine.stream
-		//看板访问地址 http://127.0.0.1:9002/hystrix，url后面一定要带 /hystrix
-		err = http.ListenAndServe(net.JoinHostPort(hostIp, strconv.Itoa(hystrixPort)), hystrixStreamHandler)
-		if err != nil {
-			common.Error(err)
-		}
-	}()
+	//go func() {
+	//	//http://10.64.86.100:9092/turbine/turbine.stream
+	//	//看板访问地址 http://127.0.0.1:9002/hystrix，url后面一定要带 /hystrix
+	//	err = http.ListenAndServe(net.JoinHostPort(hostIp, strconv.Itoa(hystrixPort)), hystrixStreamHandler)
+	//	if err != nil {
+	//		common.Error(err)
+	//	}
+	//}()
 
 	//7.添加监控采集地址
 	common.PrometheusBoot(prometheusPort)

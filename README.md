@@ -4,7 +4,7 @@
 
 - `jsonrpc` 目录下为 jsonrpc 的使用熟悉
 - `crawler` 目录下是一个爬虫项目， `crawler-distributed` 是其分布式版本
-- `micro-v3` 目录下是使用`go-micro`框架实现的pass平台，其下`server`目录为相关微服务，`docker`目录为依赖的中间件
+- `micro-v3` 目录下是使用`go-micro`框架实现的pass平台，其下`server`目录为相关微服务，`docker`目录为依赖的中间件，`front`目录为前端页面
 
 ## Crawler
 
@@ -76,4 +76,4 @@ It's crawler website using Go language.
 - 进入`./micro-v3/docker/compose` 执行 `docker-compose up -d`，进行consul配置和mysql库配置
 - 进入`./micro-v3/docker/elk` 执行 `docker-compose -f docker-elk.yml up -d`
 - 进入`server`目录下不同微服务，执行相应`Makefile`
-- 
+- 启动网关：`docker run -d -p 8080:8080 cap1573/cap-api-gateway --registry=consul --registry_address=替换成注册中心地址:8500 api --handler=api`

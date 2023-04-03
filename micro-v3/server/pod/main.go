@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/afex/hystrix-go/hystrix"
 	"github.com/asim/go-micro/plugins/registry/consul/v3"
 	ratelimit "github.com/asim/go-micro/plugins/wrapper/ratelimiter/uber/v3"
 	opentracing2 "github.com/asim/go-micro/plugins/wrapper/trace/opentracing/v3"
@@ -21,8 +20,6 @@ import (
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
-	"net"
-	"net/http"
 	"path/filepath"
 	"strconv"
 
@@ -82,17 +79,17 @@ func main() {
 	opentracing.SetGlobalTracer(t)
 
 	//5.添加熔断器
-	hystrixStreamHandler := hystrix.NewStreamHandler()
-	hystrixStreamHandler.Start()
-	//添加监听程序
-	go func() {
-		//http://10.64.86.100:9091/turbine/turbine.stream
-		//看板访问地址 http://127.0.0.1:9002/hystrix，url后面一定要带 /hystrix
-		err = http.ListenAndServe(net.JoinHostPort("0.0.0.0", strconv.Itoa(hystrixPort)), hystrixStreamHandler)
-		if err != nil {
-			common.Error(err)
-		}
-	}()
+	//hystrixStreamHandler := hystrix.NewStreamHandler()
+	//hystrixStreamHandler.Start()
+	////添加监听程序
+	//go func() {
+	//	//http://10.64.86.100:9091/turbine/turbine.stream
+	//	//看板访问地址 http://127.0.0.1:9002/hystrix，url后面一定要带 /hystrix
+	//	err = http.ListenAndServe(net.JoinHostPort("0.0.0.0", strconv.Itoa(hystrixPort)), hystrixStreamHandler)
+	//	if err != nil {
+	//		common.Error(err)
+	//	}
+	//}()
 
 	//6.添加日志中心
 	//1）需要程序日志打入到日志文件中
