@@ -19,8 +19,12 @@ require (
 	go.uber.org/zap v1.24.0
 	golang.org/x/net v0.5.0
 	golang.org/x/text v0.6.0
+	google.golang.org/protobuf v1.26.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 	gopkg.in/olivere/elastic.v6 v6.2.37
+	k8s.io/api v0.22.4
+	k8s.io/apimachinery v0.22.4
+	k8s.io/client-go v0.22.4
 )
 
 require (
@@ -85,6 +89,7 @@ require (
 	github.com/sergi/go-diff v1.1.0 // indirect
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/sirupsen/logrus v1.7.0 // indirect
+	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/uber/jaeger-lib v2.4.1+incompatible // indirect
 	github.com/urfave/cli/v2 v2.3.0 // indirect
 	github.com/xanzy/ssh-agent v0.3.0 // indirect
@@ -98,16 +103,12 @@ require (
 	golang.org/x/term v0.4.0 // indirect
 	golang.org/x/time v0.0.0-20210723032227-1f47c861a9ac // indirect
 	google.golang.org/appengine v1.6.5 // indirect
-	google.golang.org/protobuf v1.26.0 // indirect
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	k8s.io/api v0.22.4 // indirect
-	k8s.io/apimachinery v0.22.4 // indirect
-	k8s.io/client-go v0.22.4 // indirect
 	k8s.io/klog/v2 v2.9.0 // indirect
 	k8s.io/utils v0.0.0-20210819203725-bdf08cb9a70a // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.1.2 // indirect

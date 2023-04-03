@@ -96,6 +96,7 @@ func (u *PodDataService) DeleteFromK8s(pod *model.Pod) (err error) {
 
 func (u *PodDataService) SetDeployment(podInfo *pod.PodInfo) {
 	deployment := &v1.Deployment{}
+	// go get k8s.io/apimachinery/pkg/apis/meta/v1@v0.22.4
 	deployment.TypeMeta = v12.TypeMeta{
 		Kind:       "deployment",
 		APIVersion: "v1",
@@ -118,6 +119,7 @@ func (u *PodDataService) SetDeployment(podInfo *pod.PodInfo) {
 			},
 			MatchExpressions: nil,
 		},
+		// go get k8s.io/api/core/v1@v0.22.4
 		Template: v13.PodTemplateSpec{
 			ObjectMeta: v12.ObjectMeta{
 				Labels: map[string]string{
