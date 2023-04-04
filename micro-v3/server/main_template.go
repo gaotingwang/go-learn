@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-func main() {
+func main_insert() {
 	// 1. 注册中心
 	consulRegistry := consul.NewRegistry(func(options *registry.Options) {
 		options.Addrs = []string{
