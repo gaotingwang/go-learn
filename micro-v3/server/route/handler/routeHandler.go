@@ -43,7 +43,7 @@ func (e *RouteHandler) AddRoute(ctx context.Context, info *route.RouteInfo, rsp 
 	return nil
 }
 
-//删除route
+// 删除route
 func (e *RouteHandler) DeleteRoute(ctx context.Context, req *route.RouteId, rsp *route.Response) error {
 	log.Info("Received *route.DeleteRoute request")
 	routeModel, err := e.RouteDataService.FindRouteByID(req.Id)
@@ -59,7 +59,7 @@ func (e *RouteHandler) DeleteRoute(ctx context.Context, req *route.RouteId, rsp 
 	return nil
 }
 
-//更新route
+// 更新route
 func (e *RouteHandler) UpdateRoute(ctx context.Context, req *route.RouteInfo, rsp *route.Response) error {
 	log.Info("Received *route.UpdateRoute request")
 	if err := e.RouteDataService.UpdateRouteToK8s(req); err != nil {
@@ -80,7 +80,7 @@ func (e *RouteHandler) UpdateRoute(ctx context.Context, req *route.RouteInfo, rs
 	return e.RouteDataService.UpdateRoute(routeModel)
 }
 
-//根据ID查询route信息
+// 根据ID查询route信息
 func (e *RouteHandler) FindRouteByID(ctx context.Context, req *route.RouteId, rsp *route.RouteInfo) error {
 	log.Info("Received *route.FindRouteByID request")
 	routeModel, err := e.RouteDataService.FindRouteByID(req.Id)
