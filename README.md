@@ -77,3 +77,4 @@ It's crawler website using Go language.
 - 进入`./micro-v3/docker/elk` 执行 `docker-compose -f docker-elk.yml up -d`
 - 进入`server`目录下不同微服务，执行相应`Makefile`
 - 启动网关：`docker run -d -p 8080:8080 cap1573/cap-api-gateway --registry=consul --registry_address=替换成注册中心地址:8500 api --handler=api`
+
