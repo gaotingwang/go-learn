@@ -38,7 +38,7 @@
                 </ul>
               </li>
             </ul>
-            <div class="page-title"><span>看板</span></div>
+            <div class="page-title"></div>
             <ul class="nav navbar-nav navbar-right be-icons-nav">
               <li class="dropdown"><a href="#" role="button" aria-expanded="false" class="be-toggle-right-sidebar"><span class="icon mdi mdi-settings"></span></a></li>
               <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><span class="icon mdi mdi-notifications"></span><span class="indicator"></span></a>
@@ -130,13 +130,13 @@
                 </li>
               </ul>
             </li>
-            <li class="parent"><a href="#"><i class="icon mdi mdi-dot-circle"></i><span>中间件</span></a>
+            <li class="parent"><a href="#"><i class="icon mdi mdi-dot-circle"></i><span>权限管理</span></a>
               <ul class="sub-menu">
-                <li class="active"><a href="route-index.html">中间件</a>
+                <li class="active"><a href="route-index.html">权限管理</a>
                 </li>
               </ul>
             </li>
-            <li class="parent"><a href="#"><i class="icon mdi mdi-border-all"></i><span>中间件</span></a>
+            <li class="parent"><a href="#"><i class="icon mdi mdi-border-all"></i><span>权限管理</span></a>
               <ul class="sub-menu">
                 <li><a href="tables-general.html">General</a>
                 </li>
@@ -146,7 +146,7 @@
                 </li>
               </ul>
             </li>
-            <li class="parent"><a href="#"><i class="icon mdi mdi-layers"></i><span>应用市场</span></a>
+            <li class="parent"><a href="#"><i class="icon mdi mdi-layers"></i><span>权限管理</span></a>
               <ul class="sub-menu">
                 <li><a href="pages-blank.html">Blank Page</a>
                 </li>
@@ -192,7 +192,7 @@
       </div>
     </div>
     <div class="progress-widget">
-      <div class="progress-data"><span class="progress-value">60%</span><span class="name">Current Project</span></div>
+
       <div class="progress">
         <div style="width: 60%;" class="progress-bar progress-bar-primary"></div>
       </div>
@@ -204,67 +204,62 @@
 -->
       <div class="be-content">
         <div class="page-head">
-          <h2 class="page-head-title">中间件</h2>
+          <h2 class="page-head-title">角色管理</h2>
           <ol class="breadcrumb page-head-nav">
             <li><a href="#">控制台</a></li>
-            <li><a href="#">中间件</a></li>
-            <li class="active">中间件列表</li>
+            <li><a href="#">权限管理</a></li>
+            <li class="active">权限管理列表</li>
           </ol>
         </div>
         <div class="main-content container-fluid">
-          <div class="row pricing-tables">
-            <div class="col-md-3">
-              <div class="pricing-table pricing-table-primary">
-                <div class="pricing-table-image">
-                  <img src="./assets/img/Consul.jpeg">
+          <div class="main-content container-fluid">
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="panel panel-default panel-border-color panel-border-color-primary">
+                  <div class="panel-heading panel-heading-divider">角色管理<span class="panel-subtitle">分配系统详细的权限</span></div>
+                  <div class="panel-body">
+                    <form action="http://127.0.0.1:8080/userApi/AddRole" class="form-horizontal group-border-dashed" method="post" novalidate="">
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label">用户ID</label>
+                        <div class="col-sm-6">
+                          <div class="be-checkbox be-checkbox-color inline">
+                            <input id="check6" type="text" checked="" hidden value="1" name="user_id">
+                            <label for="check6">张三</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label">角色</label>
+                        <div class="col-sm-6">
+                          <div class="be-checkbox be-checkbox-color inline">
+                            <input id="check61" type="checkbox" value="1" name="role_id">
+                            <label for="check61">主管</label>
+                          </div>
+                          <div class="be-checkbox be-checkbox-color inline">
+                            <input id="check7" type="checkbox"    value="2" name="role_id">
+                            <label for="check7">组长</label>
+                          </div>
+                          <div class="be-checkbox be-checkbox-color inline">
+                            <input id="check8" type="checkbox"   value="3" name="role_id">
+                            <label for="check8">组员</label>
+                          </div>
+                          <div class="be-checkbox be-checkbox-color inline">
+                            <input id="check9" type="checkbox"   value="4" name="role_id">
+                            <label for="check9">访客</label>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-sm-2 col-sm-10">
+                              <button type="submit" class="btn btn-space btn-primary">提交</button>
+                              <button class="btn btn-space btn-default">取消</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
                 </div>
-                <div class="pricing-table-title">Consul</div>
-                <div class="panel-divider panel-divider-xl"></div>
-                <ul class="pricing-table-features">
-                  <li>Consul 简化了分布式环境中的服务的注册和发现流程，通过 HTTP 或者 DNS 接口发现。支持外部 SaaS 提供者等。</li>
-                  <li></li>
-                </ul><a href="#" class="btn btn-primary">开始创建</a>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="pricing-table pricing-table-primary">
-                <div class="pricing-table-image">
-                  <img src="./assets/img/Mysql.jpeg">
-                </div>
-                <div class="pricing-table-title">Mysql</div>
-                <div class="panel-divider panel-divider-xl"></div>
-                <ul class="pricing-table-features">
-                  <li>MySQL 是一种关系型数据库管理系统，关系数据库将数据保存在不同的表中，这样就增加了速度并提高了灵活性。
-                  </li>
-                  <li></li>
-                </ul><a href="#" class="btn btn-primary">开始创建</a>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="pricing-table pricing-table-primary">
-                <div class="pricing-table-image">
-                  <img src="./assets/img/Redis.jpeg">
-                </div>
-                <div class="pricing-table-title">Redis</div>
-                <div class="panel-divider panel-divider-xl"></div>
-                <ul class="pricing-table-features">
-                  <li>Redis是一个开源的使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。
-                  </li>
-                  <li></li>
-                </ul><a href="#" class="btn btn-primary">开始创建</a>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="pricing-table pricing-table-primary">
-                <div class="pricing-table-image">
-                  <img src="./assets/img/MariaDB.jpeg">
-                </div>
-                <div class="pricing-table-title">MariaDB</div>
-                <div class="panel-divider panel-divider-xl"></div>
-                <ul class="pricing-table-features">
-                  <li>MariaDB数据库管理系统是MySQL的一个分支， MariaDB的目的是完全兼容MySQL，使之能轻松成为MySQL的代替品。</li>
-                  <li></li>
-                </ul><a href="#" class="btn btn-primary">开始创建</a>
               </div>
             </div>
           </div>
