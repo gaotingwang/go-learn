@@ -2,34 +2,35 @@ package form
 
 import (
 	"errors"
-	"git.imooc.com/coding-535/common"
-	"git.imooc.com/coding-535/volumeApi/proto/volumeApi"
 	"strings"
+
+	"github.com/gaotingwang/go-learn/micro-v3/common"
+	"github.com/gaotingwang/go-learn/micro-v3/server/volumeapi/proto/volumeApi"
 
 	"reflect"
 	"strconv"
 	"time"
 )
 
-//根据结构体中name标签映射数据到结构体中并且转换类型
+// 根据结构体中name标签映射数据到结构体中并且转换类型
 func FormToSvcStruct(data map[string]*volumeApi.Pair, obj interface{}) {
 	objValue := reflect.ValueOf(obj).Elem()
 	for i := 0; i < objValue.NumField(); i++ {
 		//获取sql对应的值
-		dataTag := strings.Replace(objValue.Type().Field(i).Tag.Get("json"),",omitempty","",-1)
+		dataTag := strings.Replace(objValue.Type().Field(i).Tag.Get("json"), ",omitempty", "", -1)
 		dataSlice, ok := data[dataTag]
 		if !ok {
 			continue
 		}
 		valueSlice := dataSlice.Values
-		if len(valueSlice)<=0{
+		if len(valueSlice) <= 0 {
 			continue
 		}
 		//排除port和env
 		if dataTag == "route_path" {
 			continue
 		}
-		value:=valueSlice[0]
+		value := valueSlice[0]
 		//端口，环境变量的单独处理
 		//获取对应字段的名称
 		name := objValue.Type().Field(i).Name
@@ -50,7 +51,7 @@ func FormToSvcStruct(data map[string]*volumeApi.Pair, obj interface{}) {
 	}
 }
 
-//类型转换
+// 类型转换
 func TypeConversion(value string, ntype string) (reflect.Value, error) {
 	if ntype == "string" {
 		return reflect.ValueOf(value), nil
@@ -84,4 +85,3 @@ func TypeConversion(value string, ntype string) (reflect.Value, error) {
 
 	return reflect.ValueOf(value), errors.New("未知的类型：" + ntype)
 }
-
